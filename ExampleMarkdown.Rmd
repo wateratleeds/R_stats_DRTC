@@ -1,0 +1,51 @@
+---
+title: 'Example Markdown '
+author: "Gabriela Lopez-Gonzalez"
+date: "Tuesday, January 10, 2017"
+output: html_document
+---
+**Template to describe data recording, cleaning and analysis** 
+
+Data was collected following Gentry floristic protocol. Details of data collection can be found in http://www.mobot.org/MOBOT/Research/gentry/transect.shtml
+
+**Data curation and quality control**
+
+Data collected was formatted following the RAINFOR protocol and uploaded to ForestPlots.net database and application. After the upload, the Quality Control protocol wizard was applied to look for outliers. <http://www.ForestPlots.net>.
+
+**Data "cleaning" and transformation**
+
+For this example we're going to use data included in the trees dataset. We begin by loading the `trees` data frame. Type the following in your console
+to load the data:
+
+```{r load-data}
+data(trees)
+```
+
+The packages use are dplyr and ggplot2.
+
+```{r load-packages, message = FALSE}
+library(dplyr)
+library(ggplot2)
+library(statsr)
+```
+The variables included in the trees dataset are tree diameter in inches, height in feet and volume of timber in cubic ft.
+Diameter was transformed to cm and height to meters as this are the units used to model the relationship between height and diameter.
+
+
+```{r calculate diameter in cm}
+trees <- trees %>%
+  mutate(diam_cm = Girth*2.54)
+trees <- trees %>%
+  mutate(height_m = Height*0.3048)
+```
+The relationship between diameter and height is shown in the figure below.
+
+
+```{r height and diameter}
+
+
+ggplot(data = trees, aes(x = diam_cm, y = height_m)) +
+  geom_point()
+
+
+```
